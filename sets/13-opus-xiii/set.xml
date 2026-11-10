@@ -1490,7 +1490,7 @@ When Lilty enters the field, choose 1 Forward of cost 2 or less. If the cost pai
 			<property name='Abilities'>When Leo enters the field, place 1 Kingdom Counter on Leo for each <i>Category FFCC</i> Character you control.
 <s value="1CP">1 CP</s><s value="Dull">Dull</s>, remove X Kingdom Counters from Leo: Choose 1 Forward other than <i>Card Name Leo</i>, Light or Dark in your Break Zone. If its cost is X, play it onto the field. You can only use this ability during your turn and only once per turn.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value='Counter|Kingdom Counter|N/A][AutoCounter|Kingdom Counter|Player_Table_TypeContainer,IsNot,SummonANDCategoryContainer,Is,FFCC][Search your Break Zone for a Forward|Player_BreakZone_Type,Is,ForwardANDName,IsNot,LeoANDElement,IsNot,LightANDElement,IsNot,Dark'/>
+			<property name='AbilitiesContainer' value='Counter|Kingdom Counter|N/A][AutoCounter|Kingdom Counter|Player_Table_TypeContainer,IsNot,SummonANDCategoryContainer,Is,FFCC][SearchForCard1|Search your Break Zone for a Forward|Player_BreakZone_Type,Is,ForwardANDName,IsNot,LeoANDElement,IsNot,LightANDElement,IsNot,Dark'/>
 			<property name='Multicard' value='FALSE'/>
 			<property name='EXBurst' value='FALSE'/>
 			<property name='Active' value='FALSE'/>

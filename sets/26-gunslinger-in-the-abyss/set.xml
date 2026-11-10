@@ -228,7 +228,7 @@ When a Forward other than Zack enters your field, it gains +2000 power until the
 		<property name='Abilities'><i>Priming "Phoenix (XVI)"</i> - <s value="FireCP">Fire CP</s>
 When Joshua enters the field, choose 1 Forward opponent controls. Deal it 2000 damage for each <i>Job Eikon</i> in your Break Zone and/or <i>Job Eikon</i> you own removed from the game.</property>
 		<property name='SpecialAbilities'></property>
-		<property name='AbilitiesContainer' value='Prime_Dominant|Phoenix (XVI)|1/0/0/0/0/0/0/0/0][CountCards1|Count the number of Eikons in your Break Zone|Player_BreakZone_Job,Is,Eikon][CountCards2|Count the number of Eikons removed from the game|Player_RemoveFromGame_Job,Is,Eikon'/>
+		<property name='AbilitiesContainer' value='Prime_Dominant|Phoenix (XVI)|1/0/0/0/0/0/0/0/0][CountCards1|Count the number of Eikons in your Break Zone|Player_BreakZone_Job,Is,Eikon'/>
 		<property name='Multicard' value='FALSE'/>
 		<property name='EXBurst' value='FALSE'/>
 		<property name='Active' value='FALSE'/>
@@ -770,7 +770,7 @@ When a Character enters your opponent's field, dull it and Freeze it.</property>
 When Jill enters the field, choose up to the same number of Characters as the <i>Job Eikon</i> in your Break Zone and/or <i>Job Eikon</i> you won removed from the game. Dull them.
 At the beginning of the Attack Phase during each of your turns, you may pay <s value="IceCP">Ice CP</s>. When you do so, choose 1 dull Forward. Break it.</property>
 		<property name='SpecialAbilities'></property>
-		<property name='AbilitiesContainer' value='Prime_Dominant|Shiva (XVI)|0/1/0/0/0/0/0/0/2][CountCards1|Count the number of Eikons in your Break Zone|Player_BreakZone_Job,Is,Eikon][CountCards2|Count the number of Eikons removed from the game|Player_RemoveFromGame_Job,Is,Eikon'/>
+		<property name='AbilitiesContainer' value='Prime_Dominant|Shiva (XVI)|0/1/0/0/0/0/0/0/2][CountCards1|Count the number of Eikons in your Break Zone|Player_BreakZone_Job,Is,Eikon'/>
 		<property name='Multicard' value='FALSE'/>
 		<property name='EXBurst' value='FALSE'/>
 		<property name='Active' value='FALSE'/>
@@ -1865,7 +1865,7 @@ If you control a <i>Card Name Zangan</i>, you can discard 1 card instead of <s v
 When Vivian enters the field, choose 1 <i>Category XVI</i> Forward in your Break Zone. Add it to your hand.
 When a Character you control is priming, draw 1 card.</property>
 		<property name='SpecialAbilities'></property>
-		<property name='AbilitiesContainer' value='SearchForCard1|Search your Break Zone for a Category XVI Forward|Player_BreakZone_Type,Is,ForwardANDCategory,Is,XVI'/>
+		<property name='AbilitiesContainer' value='SearchForCard1|Search your Break Zone for a Category XVI Forward|Player_BreakZone_Type,Is,ForwardANDCategory,Is,XVI][Primecast|AoE|Player_CardToPlay_Type,IsNot,Summon'/>
 		<property name='Multicard' value='FALSE'/>
 		<property name='EXBurst' value='FALSE'/>
 		<property name='Active' value='FALSE'/>

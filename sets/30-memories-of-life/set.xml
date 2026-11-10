@@ -1258,7 +1258,7 @@ If Oberon Heindler is dealt damage by your opponent's abilities, the damage beco
       <property name="Abilities">The cost required to cast Kimahri is reduced by 2 for each Job Ronso Forward you control.
 Put Kimahri into the Break Zone: Choose 1 Category X Forward. During this turn, if it is dealt damage, the damage becomes 0 instead.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="CostReduction|Self|Player_Table_TypeContainer,Is,ForwardANDJobContainer,Is,Ronso|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1500,7 +1500,7 @@ If Proto-behemoth is dealt damage less than Proto-behemoth's power, the damage b
 The power of the Category X Forwards you control cannot be decreased by your opponent's Summons or abilities.
 When Rikku is put from the field into the Break Zone, choose 1 Category X card other than Card Name Rikku in your Break Zone. Add it to your hand.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="SearchForCard1|Search your Break Zone for a Category X card other than Card Name Rikku|Player_BreakZone_Category,Is,XANDName,IsNot,Rikku" />
+      <property name="AbilitiesContainer" value="SearchForCard1|Search your Break Zone for a Category X card other than Card Name Rikku|Player_BreakZone_Category,Is,XANDName,IsNot,Rikku][CostReduction|Self|Player_Table_TypeContainer,Is,ForwardANDCategoryContainer,Is,X|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1546,7 +1546,7 @@ When Rikku is put from the field into the Break Zone, choose 1 Category X card o
 <b>Back Attack</b>
 When Aldo deals damage to a Forward, break it.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="CostReduction|Self|Player_Table_TypeContainer,Is,ForwardANDCategoryContainer,Is,XI|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1767,7 +1767,7 @@ When Zack enters the field, choose 1 Forward. Deal it 4000 damage.</property>
 When Shantotto enters the field, deal 1000 damage for each Lightning Character you control to all the Forwards other than Shantotto.
 When Shantotto attacks, reveal the top card of your deck. If it is a Lightning card, add it to your hand.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="RevealCards1|Quantity|1|Element,Is,Lightning" />
+      <property name="AbilitiesContainer" value="RevealCards1|Quantity|1|Element,Is,Lightning][CostReduction|Self|Player_Table_TypeContainer,IsNot,SummonANDElementContainer,Is,Lightning|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -2170,7 +2170,7 @@ When Yuna enters the field, reveal the top 5 cards of your deck. Add 1 Category 
 When a Forward of power 9000 or more you control attacks, draw 1 card.
 Damage 3 -- Lucia (XIV) gains +2000 power.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|Player_DamageZone_ContainerSize,GreaterThanOrEqualTo,3|ThisCard|2000|Single|Lucia (XIV) gains +2000 power" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|Player_DamageZone_ContainerSize,GreaterThanOrEqualTo,3|ThisCard|2000|Single|Lucia (XIV) gains +2000 power][CostReduction|Self|Player_Table_Name,Is,Aymeric|1|2|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -2617,7 +2617,7 @@ Dull 3 active Job Dancer and/or Card Name Dancer: Choose 1 Multi-Element Forward
 <b>Haste</b>
 When Freya attacks, choose 1 Forward opponent controls. Until the end of the turn, it loses 2000 power for each Category IX Forward you control.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="CostReduction|Self|Player_Table_TypeContainer,IsNot,SummonANDCategoryContainer,Is,IX|3|3|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />

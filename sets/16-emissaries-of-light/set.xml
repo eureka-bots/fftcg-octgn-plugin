@@ -2950,7 +2950,7 @@ Put Jecht into the Break Zone: Search for 1 Light or Dark Character and add it t
 			<property name='Abilities'>Before paying the cost to cast Bahamut, you can remove 10 Fire Characters and/or <i>Category X</i> Characters in your Break Zone from the game to reduce the cost required to cast Bahamut by 5.
 Choose 1 Forward. Deal it 10000 damage. If it is put from the field into the Break Zone this turn, remove it from the game instead.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value='CountCards1|Count the number of Fire Characters in your Break Zone|Player_BreakZone_Type,IsNot,SummonANDElement,Is,Fire][CountCards2|Count the number of Category X Characters in your Break Zone|Player_BreakZone_Type,IsNot,SummonANDCategory,Is,X'/>
+			<property name='AbilitiesContainer' value='CountCards1|Count the number of Fire Characters in your Break Zone|Player_BreakZone_Type,IsNot,SummonANDElement,Is,Fire'/>
 			<property name='Multicard' value='FALSE'/>
 			<property name='EXBurst' value='FALSE'/>
 			<property name='Active' value='FALSE'/>

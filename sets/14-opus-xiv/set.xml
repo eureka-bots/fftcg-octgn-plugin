@@ -2462,7 +2462,7 @@ At the end of each of your turns, draw 1 card.</property>
 			<property name='Abilities'><s value="EXBurst">EX Burst</s> When Larsa enters the field, choose 1 card in your Damage Zone. Add it to your hand. Put 1 card from our hand into the Damage Zone (Its EX Burst effect will not trigger).
 The Forwards you control gain +2000 power for every 3 cards with EX Burst in your Damage Zone.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value='PowerBoost_1st|Auto|ACTIVE|N/A|Player_DamageZone_EXBurst,Is,TrueANDContainerSize,GreaterThanOrEqualTo,3|2000|Single|(EX 3) Forwards gain +2000 power][PowerBoost_2st|Auto|ACTIVE|N/A|Player_DamageZone_EXBurst,Is,TrueANDContainerSize,GreaterThanOrEqualTo,6|2000|Single|(EX 6) Forwards gain +2000 power'/>
+			<property name='AbilitiesContainer' value='PowerBoost_1st|Auto|ACTIVE|Player_DamageZone_EXBurst,Is,True|Player_Table_TypeContainer,Is,Forward|2000|SizePer_3|Forwards gain +2000 power for every 3 EX Burst cards in your Damage Zone'/>
 			<property name='Multicard' value='FALSE'/>
 			<property name='EXBurst' value='TRUE'/>
 			<property name='Active' value='FALSE'/>

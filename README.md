@@ -27,6 +27,8 @@ For every Limit Break card, append ` (LB)` to the imported card name (for exampl
 
 Treat `Abilities` as the source for deciding which `AbilitiesContainer` entries are appropriate; never copy rules text into the container. For each distinct ability, add an entry only when an existing script handler supports its trigger, timing, costs, conditions, targets, and action. Container entries are script data, not a promise that the whole printed effect resolves automatically.
 
+For detailed handler formats, supported behavior, limitations, and guidance for AI-assisted card-data mapping, see [CARD_DATA_MAPPING.md](CARD_DATA_MAPPING.md). Repository agent instructions direct card-data work to this reference.
+
 Use these helper mappings when they match the printed ability:
 
 - A deck search, or a single card selected from the Break Zone, uses `SearchForCard1`, `SearchForCard2`, or `SearchForCard3`. The format is `SearchForCardN|<menu label>|Player_<Deck or BreakZone>_<filters>`. Filters are `field,operation,value` triples joined with `AND`. For example, Vivi's “Job Black Mage or Card Name Black Mage” search is `SearchForCard1|Search your Deck for a Job Black Mage or Card Name Black Mage|Player_Deck_NameOrJob,Is,Black Mage`; `NameOrJob` matches either the card name or a job. A Break Zone target can add filters such as `Type,Is,ForwardANDCP,LessThanOrEqualTo,2`. The helper shows matching cards to the player; it does not add, play, or otherwise resolve them.
