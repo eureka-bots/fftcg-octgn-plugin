@@ -58,6 +58,22 @@ Use `-ValidateOnly` to validate without building, `-Install` to install the buil
 
 The `.nupkg` is the builder's feed package; it is not an `.o8g` file. Do not rename the package to `.o8g`.
 
+## Build Playmat Backgrounds
+
+The `solid_1.png` and `solid_2.png` files are transparent overlays sized 1800×800. Their player panels are each 1248×350 pixels (aspect ratio 1248:350); `solid_2` also includes the side damage zones. The default pair is `materiahunter_1` and `materiahunter_2`; `dissidia_1` and `dissidia_2` remain available as alternatives.
+
+The helper takes one image for the upper player and one for the lower player. It center-crops each image to fill a panel, rotates the upper image 180° for the opponent's orientation, and applies 65% opacity to all artwork zones by default (`-ArtworkOpacity` can override it). Images at the panel aspect ratio avoid cropping; for best quality, use at least 1248×350 pixels.
+
+Optionally, provide `-TopDamageZoneImage` and/or `-BottomDamageZoneImage` to fill the side damage zones in `<name>_2.png` with separate artwork. Each image is center-cropped into a 222×350-pixel zone; the upper image is rotated 180°, while the lower image stays upright. When custom damage-zone artwork is supplied, the centered Final Fantasy TCG logo and dark template residue are removed while the `Damage` label remains with its thin black drop shadow and rounded zone edges. The template's player-zone labels remain over the artwork with their thin black drop shadow, and the horizontal bars retain a thin black center with a subtle, symmetric white halo and no black outline. The damage artwork uses the same 65% default opacity as the player panels. `<name>_1.png` has no damage zones, so it remains unaffected. `-DamageZoneImage` remains available as a shortcut to use the same image in both zones; a side-specific argument overrides it for that zone.
+
+Run it from the repository root:
+
+```powershell
+.\tools\Build-PlaymatBackgrounds.ps1 -TopImage '.\art\top-player.png' -BottomImage '.\art\bottom-player.png' -TopDamageZoneImage '.\art\top-damage.png' -BottomDamageZoneImage '.\art\bottom-damage.png' -Name 'dissidia' -Force
+```
+
+By default, the script writes `<name>_1.png` and `<name>_2.png` into the game's `resources\backgrounds\` folder. Omit all damage-zone image arguments to leave those zones unchanged, omit `-Force` to refuse overwriting existing files, use `-OutputDirectory` to write elsewhere, and use `-WhatIf` to preview the operation. For a new name, add both gameboards to `definition.xml` and wire the names into `script_gameLogic.py` to make the pair selectable in-game.
+
 ### Publish To The MyGet Feed
 
 First build and install the package into OCTGN's local feed with `.\tools\Build.ps1 -Install`; the copy command below expects the resulting package in `LocalFeed`. From the repository root, set `$env:VERSION` to the version from `definition.xml`, then copy the builder-named package and give it the feed filename:

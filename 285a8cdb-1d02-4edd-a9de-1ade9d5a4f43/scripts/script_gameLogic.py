@@ -4,8 +4,8 @@ L3_firstCheck = "26-"
 L3_secondCheck = "27-"
 L3_thirdCheck = "28-"
 
-smallTableName = "dissidia_1"
-bigTableName = "dissidia_2"
+smallTableName = "materiahunter_1"
+bigTableName = "materiahunter_2"
 
 smallTableName_solid = "solid_1"
 bigTableName_solid = "solid_2"
