@@ -58,6 +58,7 @@ foreach ($setDirectory in Get-ChildItem -LiteralPath $setSourceRoot -Directory) 
 	$setPathsById[$setId] = $setDirectory.FullName
 	$setSources[$setDirectory.Name] = [pscustomobject]@{
 		Id = $setId
+		Name = $setDirectory.Name
 		Path = $setDirectory.FullName
 	}
 }
@@ -66,7 +67,11 @@ $setNamesToProcess = if ($All) {
 	@($setSources.Keys | Sort-Object)
 }
 else {
-	$SetNames
+	$requestedSetNames = @($SetNames)
+	if ($requestedSetNames -notcontains 'debug') {
+		$requestedSetNames += 'debug'
+	}
+	$requestedSetNames
 }
 
 $selectedSets = @()
@@ -93,7 +98,48 @@ foreach ($requestedSetName in $setNamesToProcess) {
 		$cardIds[$cardGuid.ToString()] = $true
 	}
 
-	$cardsPath = Join-Path (Join-Path $setPath 'Cards') $ImageLanguage
+	$cardsRootPath = Join-Path $setPath 'Cards'
+	if ($setSource.Name -eq 'debug') {
+		if (-not (Test-Path -LiteralPath $cardsRootPath -PathType Container)) {
+			throw "Debug card image directory not found: '$cardsRootPath'."
+		}
+		$debugImages = @(Get-ChildItem -LiteralPath $cardsRootPath -File -Recurse |
+			Where-Object { $_.Extension.ToLowerInvariant() -in @('.jpg', '.jpeg', '.png') })
+		if ($debugImages.Count -eq 0) {
+			throw "No Debug card images found in '$cardsRootPath'."
+		}
+
+		$proxyPath = Join-Path $cardsRootPath 'Proxies'
+		$debugEntries = @{}
+		foreach ($image in $debugImages) {
+			$imageGuid = [guid]::Empty
+			if (-not [guid]::TryParse($image.BaseName, [ref]$imageGuid) -or -not $cardIds.ContainsKey($imageGuid.ToString())) {
+				throw "Debug image filename does not match a card UUID in set ${setId}: $($image.Name)"
+			}
+
+			$isProxyImage = $image.FullName.StartsWith(
+				$proxyPath + [System.IO.Path]::DirectorySeparatorChar,
+				[System.StringComparison]::OrdinalIgnoreCase)
+			if ($isProxyImage) {
+				$entryName = $image.Name
+			}
+			else {
+				$entryName = $image.FullName.Substring($cardsRootPath.Length).TrimStart('\', '/').Replace('\', '/')
+			}
+			if ($debugEntries.ContainsKey($entryName)) {
+				throw "Debug image '$($image.Name)' conflicts with another image after proxy flattening."
+			}
+			$debugEntries[$entryName] = $true
+			$imageFiles += [pscustomobject]@{
+				Path = $image.FullName
+				Entry = "$gameId/Sets/$setId/Cards/$entryName"
+			}
+		}
+		$selectedSets += $setId
+		continue
+	}
+
+	$cardsPath = Join-Path $cardsRootPath $ImageLanguage
 	if (-not (Test-Path -LiteralPath $cardsPath -PathType Container)) {
 		if ($All) {
 			$skippedSets += "$($set.set.GetAttribute('name')) ($setId): image directory not found"

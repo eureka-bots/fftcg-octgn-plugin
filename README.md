@@ -84,7 +84,7 @@ After adding English card images for an expansion, apply the existing rounded-co
 .\tools\Round-CardImages.ps1 -SetNames '30-memories-of-life'
 ```
 
-Run the following in PowerShell from the repository root to create an `.o8c` archive containing card images. The builder reads from each set's `Cards/<language>/` folder; it defaults to Japanese (`ja`). Use `-ImageLanguage en` for English images. Use `-All` to include images from every set, or pass one or more set directory names with `-SetNames`. When using `-All`, sets without images for the selected language are skipped and reported. The source images are not moved or modified, and the archive is written to your temporary directory by default.
+Run the following in PowerShell from the repository root to create an `.o8c` archive containing card images. The builder reads from each set's `Cards/<language>/` folder; it defaults to Japanese (`ja`). Use `-ImageLanguage en` for English images. Use `-All` to include images from every set, or pass one or more set directory names with `-SetNames`. The Debug set's images are always bundled in either language pack, including when selecting individual sets; files under `Debug/Cards/Proxies/` are flattened into `Debug/Cards/` to match the game build. Other sets without images for the selected language are skipped and reported when using `-All`. The source images are not moved or modified, and the archive is written to your temporary directory by default.
 
 ```powershell
 .\tools\Build-ImagePack.ps1 -All -ImageLanguage ja
