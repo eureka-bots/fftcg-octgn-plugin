@@ -50,6 +50,8 @@ Run the build script from the repository root:
 .\tools\Build.ps1
 ```
 
+The build defaults to English. For language options and localization coverage, see [localization/README.md](localization/README.md).
+
 The script validates that set IDs are valid and unique, and that each set belongs to this game. It copies the game files and reconstructs the UUID-named set tree under a unique temporary directory. It includes the Debug set's `Cards/` contents (default card and proxy images) in the game package; images in its source `Cards/Proxies/` folder are placed directly in the staged `Cards/` folder because OCTGN does not allow a `Proxies/` subfolder there. Other sets' card images are omitted so they remain in the separately built image pack. Empty `Cards/` directories are created in staging for OCTGN compatibility. It then invokes `o8build.exe`. The default builder path is `%LOCALAPPDATA%\Programs\OCTGN\o8build.exe`; override it with `-BuilderPath 'C:\path\to\o8build.exe'` if needed.
 
 Use `-ValidateOnly` to validate without building, `-Install` to install the built package into OCTGN's local feed, or `-StageOnly` to create the compatible staging tree without invoking the builder. The staging directory is preserved so you can inspect it and find the generated package; its path is printed by the script.
@@ -76,16 +78,28 @@ Never put an API key in this command, a checked-in file, or source control.
 
 ## Build An Image Pack
 
-Run the following in PowerShell from the repository root to create an `.o8c` archive containing base card images from one or more sets. Use the UUID from each set's `set.xml`; for example, the UUID below selects Opus 30. The source images are not moved or modified, and the archive is written to your temporary directory by default.
+After adding English card images for an expansion, apply the existing rounded-corner mask before packaging. The helper uses a tracked alpha-only mask derived from the English Opus III reference, changes only alpha, and validates all images before replacing them. It requires the target images to match the mask dimensions. Use `-WhatIf` to validate the selected sets without changing files.
 
 ```powershell
-.\tools\Build-ImagePack.ps1 -SetIds @('a7c829e2-247e-4d85-9c2e-8ff3dfd84d37')
+.\tools\Round-CardImages.ps1 -SetNames '30-memories-of-life'
 ```
 
-Pass additional set UUIDs to include more sets in the same archive. Set names and UUIDs are printed by the regular build script. You can choose an output filename with `-OutputPath`.
+Run the following in PowerShell from the repository root to create an `.o8c` archive containing card images. The builder reads from each set's `Cards/<language>/` folder; it defaults to Japanese (`ja`). Use `-ImageLanguage en` for English images. Use `-All` to include images from every set, or pass one or more set directory names with `-SetNames`. When using `-All`, sets without images for the selected language are skipped and reported. The source images are not moved or modified, and the archive is written to your temporary directory by default.
 
 ```powershell
-.\tools\Build-ImagePack.ps1 -SetIds @('a7c829e2-247e-4d85-9c2e-8ff3dfd84d37', 'f02477c1-a755-4f69-9a6c-0f96dd0999b5') -OutputPath "$env:TEMP\FFTCG-images.o8c"
+.\tools\Build-ImagePack.ps1 -All -ImageLanguage ja
+```
+
+For a single set (for example, Opus 30), pass its directory name:
+
+```powershell
+.\tools\Build-ImagePack.ps1 -ImageLanguage ja -SetNames '30-memories-of-life'
+```
+
+Pass additional directory names to include more sets in the same archive. You can choose an output filename with `-OutputPath`.
+
+```powershell
+.\tools\Build-ImagePack.ps1 -SetNames @('30-memories-of-life', '9a-full-arts') -OutputPath "$env:TEMP\FFTCG-images-ja.o8c"
 ```
 
 The archive contains only `<game UUID>/Sets/<set UUID>/Cards/<card UUID>.<extension>`, with no manifest or enclosing staging folder. This example handles base images only, not alternate faces or `Crops/`. Install the matching game package first, then use OCTGN's **Install Image Packs** action to select the `.o8c`.

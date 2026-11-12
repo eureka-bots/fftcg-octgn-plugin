@@ -1,0 +1,14 @@
+{
+  "__L10N_VALUE_FORMAT_STANDARD__": "display.format.standard",
+  "__L10N_VALUE_FORMAT_L3__": "display.format.l3",
+  "__L10N_VALUE_FORMAT_TITLE__": "display.format.title",
+  "__L10N_VALUE_FORMAT_DRAFT__": "display.format.draft",
+  "__L10N_VALUE_FORMAT_CUSTOM__": "display.format.custom",
+  "__L10N_VALUE_FORMAT_BOSS__": "display.format.boss",
+  "__L10N_VALUE_TYPE_FORWARD__": "display.card-type.forward",
+  "__L10N_VALUE_TYPE_BACKUP__": "display.card-type.backup",
+  "__L10N_VALUE_TYPE_SUMMON__": "display.card-type.summon",
+  "__L10N_VALUE_TYPE_MONSTER__": "display.card-type.monster",
+  "__L10N_VALUE_TYPE_CHARACTER__": "display.card-type.character",
+  "__L10N_VALUE_PROMPT_OK__": "prompt.ok"
+}

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 L3_firstCheck = "26-"
 L3_secondCheck = "27-"
 L3_thirdCheck = "28-"
@@ -9,6 +11,18 @@ smallTableName_solid = "solid_1"
 bigTableName_solid = "solid_2"
 
 bossTableName = "boss_solid_2"
+
+gameLogic_displayFormatNames = {
+	"Standard": "__L10N_VALUE_FORMAT_STANDARD__",
+	"L3 Constructed": "__L10N_VALUE_FORMAT_L3__",
+	"Title": "__L10N_VALUE_FORMAT_TITLE__",
+	"Draft/Prerelease": "__L10N_VALUE_FORMAT_DRAFT__",
+	"Custom": "__L10N_VALUE_FORMAT_CUSTOM__",
+	"Boss": "__L10N_VALUE_FORMAT_BOSS__"
+}
+
+def gameLogic_get_displayFormatName(formatName):
+	return gameLogic_displayFormatNames.get(formatName, formatName)
 
 def gameLogic_query_activePlayer():
 	mute()
@@ -424,7 +438,13 @@ def gameLogic_setup_readyPlayer():
 	if (global_BossFight == "FALSE"): 
 		deckErrorMessage = ""
 			
-		formats = ["Standard", "L3 Constructed", "Title", "Draft/Prerelease", "Custom"] # "Boss"
+		formats = [
+			gameLogic_get_displayFormatName("Standard"),
+			gameLogic_get_displayFormatName("L3 Constructed"),
+			gameLogic_get_displayFormatName("Title"),
+			gameLogic_get_displayFormatName("Draft/Prerelease"),
+			gameLogic_get_displayFormatName("Custom")
+		] # "Boss"
 		formatColors = ["#9D2411", "#5394AE", "#508362", "#b2a43d", "#8b5e89"] # "#484141"
 		askChoiceResult = askChoice("Please choose your deck format:", formats, formatColors)
 		if (askChoiceResult == 0): return
@@ -434,7 +454,7 @@ def gameLogic_setup_readyPlayer():
 			askChoiceString = "Draft/Prerelease"
 			
 			if (len(me.Deck) < 40):
-				deckErrorMessage += "For the {} format, your deck should contain at least 40 cards.".format(askChoiceString)
+				deckErrorMessage += "For the {} format, your deck should contain at least 40 cards.".format(gameLogic_get_displayFormatName(askChoiceString))
 		elif (askChoiceResult == 5):
 			askChoiceString = "Custom"
 		else:
@@ -460,11 +480,11 @@ def gameLogic_setup_readyPlayer():
 				askChoiceString = "Title"
 			elif (askChoiceResult == 6):
 				askChoiceString = "Boss"
-				askChoice("For best results, the Boss should be the person that hosted/created this room.", ["OK"], ["#111111"])
+				askChoice("For best results, the Boss should be the person that hosted/created this room.", ["__L10N_VALUE_PROMPT_OK__"], ["#111111"])
 				
 			if (len(me.Deck) != 50):
 				if (deckErrorMessage != ""): deckErrorMessage += "\n\n"
-				deckErrorMessage += "For the {} format, your deck should contain exactly 50 cards.".format(askChoiceString)
+				deckErrorMessage += "For the {} format, your deck should contain exactly 50 cards.".format(gameLogic_get_displayFormatName(askChoiceString))
 				# return
 			
 		cardNameList = []
@@ -496,7 +516,7 @@ def gameLogic_setup_readyPlayer():
 		
 		if (len(bannedCardNames) > 0):
 			if (deckErrorMessage != ""): deckErrorMessage += "\n\n"
-			deckErrorMessage += "The following card(s) in your deck are currently banned from {} format:".format(askChoiceString)
+			deckErrorMessage += "The following card(s) in your deck are currently banned from {} format:".format(gameLogic_get_displayFormatName(askChoiceString))
 			for aBannedCardName in bannedCardNames:
 				deckErrorMessage += "\n- {}".format(aBannedCardName)
 			# return
@@ -504,10 +524,10 @@ def gameLogic_setup_readyPlayer():
 		if (deckErrorMessage != ""):
 			playSound("error")
 			notify("There is an error with {}'s Deck and they will have to reload.".format(me))
-			askChoice(deckErrorMessage, ["OK"], ["#111111"])
+			askChoice(deckErrorMessage, ["__L10N_VALUE_PROMPT_OK__"], ["#111111"])
 			return
 		
-		notify("{} is ready to play. (Format: {})".format(me, askChoiceString))
+		notify("{} is ready to play. (Format: {})".format(me, gameLogic_get_displayFormatName(askChoiceString)))
 		
 		me.setGlobalVariable("deckFormat", askChoiceString)
 		me.setGlobalVariable("readyToPlay", "TRUE")
@@ -1409,7 +1429,7 @@ def gameLogic_onPlay_alterCardState(cardJustPlayed):
 				addedElements.append(anElement)
 		if (addedElements):
 			cardJustPlayed.ElementContainer = " - ".join(currentElements)
-			notify("{} gains the element(s) of {}.".format(cardLogic_get_fullNameString(cardJustPlayed), ", ".join(addedElements)))
+			notify("{} gains the element(s) of {}.".format(cardLogic_get_fullNameString(cardJustPlayed), ", ".join([cardLogic_get_elementDisplayName(element) for element in addedElements])))
 			
 	autoCounterAbility = cardLogic_ability_find(cardJustPlayed, "AutoCounter")
 	if (autoCounterAbility != "N/A"):
