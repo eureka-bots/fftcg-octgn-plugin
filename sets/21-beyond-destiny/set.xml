@@ -2500,7 +2500,7 @@ When Paladin enters the field, if you control 3 or less Backups, draw 1 card.</p
 Before paying the cost to cast Ninja, you can pay <s value="Crystal">Crystal</s> to reduce the cost required to cast Ninja by 3.
 When Ninja enters the field, choose 1 Forward opponent controls. Return it to its owner's hand.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value=''/>
+			<property name='AbilitiesContainer' value='PayWithCrystal|3'/>
 			<property name='Multicard' value='TRUE'/>
 			<property name='EXBurst' value='FALSE'/>
 			<property name='Active' value='FALSE'/>

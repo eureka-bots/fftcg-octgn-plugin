@@ -1,6 +1,40 @@
+# -*- coding: utf-8 -*-
+
+promptElementDisplayNames = {
+	"Fire": "__L10N_PROMPT_ELEMENT_FIRE__",
+	"Ice": "__L10N_PROMPT_ELEMENT_ICE__",
+	"Wind": "__L10N_PROMPT_ELEMENT_WIND__",
+	"Earth": "__L10N_PROMPT_ELEMENT_EARTH__",
+	"Lightning": "__L10N_PROMPT_ELEMENT_LIGHTNING__",
+	"Water": "__L10N_PROMPT_ELEMENT_WATER__",
+	"Light": "__L10N_PROMPT_ELEMENT_LIGHT__",
+	"Dark": "__L10N_PROMPT_ELEMENT_DARK__"
+}
+
+def cardLogic_get_elementDisplayName(element):
+	return promptElementDisplayNames.get(element, element)
+
+def cardLogic_get_elementCPDisplayName(element):
+	return cardLogic_get_elementDisplayName(element) + "__L10N_PROMPT_ELEMENT_CP_SUFFIX__"
+
+cardLogic_displayCardTypes = {
+	"Forward": "__L10N_VALUE_TYPE_FORWARD__",
+	"Backup": "__L10N_VALUE_TYPE_BACKUP__",
+	"Summon": "__L10N_VALUE_TYPE_SUMMON__",
+	"Monster": "__L10N_VALUE_TYPE_MONSTER__",
+	"Character": "__L10N_VALUE_TYPE_CHARACTER__"
+}
+
+def cardLogic_get_displayCardType(cardType):
+	return cardLogic_displayCardTypes.get(cardType, cardType)
+
 def cardLogic_get_name(card):
 	mute()
 	return card.Name
+
+def cardLogic_get_internalName(card):
+	mute()
+	return getattr(card, "InternalName", None) or card.Name
 
 def cardLogic_get_name_debug(card, x = 0, y = 0):
 	mute()
@@ -104,6 +138,10 @@ def cardLogic_get_typeContainer_debug(card, x = 0, y = 0):
 def cardLogic_get_job(card):
 	mute()
 	return card.Job.split(" - ")
+
+def cardLogic_get_internalJob(card):
+	mute()
+	return (getattr(card, "InternalJob", None) or card.Job).split(" - ")
 
 def cardLogic_get_job_debug(card, x = 0, y = 0):
 	mute()
@@ -613,7 +651,7 @@ def cardLogic_move_toHand(card, x = 0, y = 0):
 		voidName = anAbilityList[1]
 		voidCards = []
 		for aCard in me.piles["The Void"]:
-			if (aCard.Name == voidName):
+			if (cardLogic_get_internalName(aCard) == voidName):
 				voidCards.append(aCard)
 		if (len(voidCards) > 0):
 			# whisper("Good!");
@@ -651,7 +689,7 @@ def cardLogic_move_toBreakZone(card, x = 0, y = 0):
 		voidName = anAbilityList[1]
 		voidCards = []
 		for aCard in me.piles["The Void"]:
-			if (aCard.Name == voidName):
+			if (cardLogic_get_internalName(aCard) == voidName):
 				voidCards.append(aCard)
 		if (len(voidCards) > 0):
 			# whisper("Good!");
@@ -689,7 +727,7 @@ def cardLogic_move_toRemoved(card, x = 0, y = 0):
 		voidName = anAbilityList[1]
 		voidCards = []
 		for aCard in me.piles["The Void"]:
-			if (aCard.Name == voidName):
+			if (cardLogic_get_internalName(aCard) == voidName):
 				voidCards.append(aCard)
 		if (len(voidCards) > 0):
 			# whisper("Good!");
@@ -778,7 +816,7 @@ def cardLogic_move_toTopOfDeck(card, x = 0, y = 0):
 		voidName = anAbilityList[1]
 		voidCards = []
 		for aCard in me.piles["The Void"]:
-			if (aCard.Name == voidName):
+			if (cardLogic_get_internalName(aCard) == voidName):
 				voidCards.append(aCard)
 		if (len(voidCards) > 0):
 			# whisper("Good!");
@@ -846,7 +884,7 @@ def cardLogic_move_toBottomOfDeck(aCard, x = 0, y = 0):
 		voidName = anAbilityList[1]
 		voidCards = []
 		for bCard in me.piles["The Void"]:
-			if (bCard.Name == voidName):
+			if (cardLogic_get_internalName(bCard) == voidName):
 				voidCards.append(bCard)
 		if (len(voidCards) > 0):
 			# whisper("Good!");
@@ -888,7 +926,7 @@ def cardLogic_move_topFromDeck(card, x = 0, y = 0):
 		voidName = anAbilityList[1]
 		voidCards = []
 		for bCard in me.piles["The Void"]:
-			if (bCard.Name == voidName):
+			if (cardLogic_get_internalName(bCard) == voidName):
 				voidCards.append(bCard)
 		if (len(voidCards) > 0):
 			# whisper("Good!");
@@ -928,7 +966,7 @@ def cardLogic_discard_gainCP(card, x = 0, y = 0):
 	counterName = chosenElement + " CP"
 	me.counters[counterName].value += 2
 	card.moveTo(me.piles["Break Zone"])
-	notify("{} discards {} and gains 2 {}. [Hand {}]".format(me, cardLogic_get_fullNameObject(card), counterName, len(me.hand)))
+	notify("{} discards {} and gains 2 {}. [Hand {}]".format(me, cardLogic_get_fullNameObject(card), cardLogic_get_elementCPDisplayName(counterName.replace(" CP", "")), len(me.hand)))
 	
 	powerLogic_powerBoost_calculate(table)
 	
@@ -943,8 +981,8 @@ def cardLogic_playOrCast(cardToPlay, x = 0, y = 0, forFree = "FALSE", autoCast =
 	mute()
 	deckFormat = me.getGlobalVariable("deckFormat")
 	
-	playOrCast = "play"
-	if (autoCast == "TRUE" or cardToPlay.Type == "Summon"): playOrCast = "cast"
+	playOrCast = "__L10N_PROMPT_PLAY_VERB__"
+	if (autoCast == "TRUE" or cardToPlay.Type == "Summon"): playOrCast = "__L10N_PROMPT_CAST_VERB__"
 	
 	# Backup Check
 	if (deckFormat != "Custom" and cardToPlay.Type == "Backup"):
@@ -975,14 +1013,14 @@ def cardLogic_playOrCast(cardToPlay, x = 0, y = 0, forFree = "FALSE", autoCast =
 		myCardsWithSameName = (card for card in table
 								if card.controller == me 
 								and card.Active == "TRUE" 
-								and card.Name == cardToPlay.Name)
+								and cardLogic_get_internalName(card) == cardLogic_get_internalName(cardToPlay))
 		for aSameName in myCardsWithSameName:
 			sameNameString += "\n- {}".format(cardLogic_get_fullNameString(aSameName))
 		
 		myCardsWithAltName1 = (card for card in table
 								if card.controller == me 
 								and card.Active == "TRUE" 
-								and ("AlternateName|" + card.Name) in cardToPlay.AbilitiesContainer)
+								and ("AlternateName|" + cardLogic_get_internalName(card)) in cardToPlay.AbilitiesContainer)
 		for aSameName in myCardsWithAltName1:
 			# whisper("match alt name 1")
 			sameNameString += "\n- {}".format(cardLogic_get_fullNameString(aSameName))
@@ -990,7 +1028,7 @@ def cardLogic_playOrCast(cardToPlay, x = 0, y = 0, forFree = "FALSE", autoCast =
 		myCardsWithAltName2 = (card for card in table
 								if card.controller == me 
 								and card.Active == "TRUE" 
-								and ("AlternateName|" + cardToPlay.Name) in card.AbilitiesContainer)
+								and ("AlternateName|" + cardLogic_get_internalName(cardToPlay)) in card.AbilitiesContainer)
 		for aSameName in myCardsWithAltName2:
 			# whisper("match alt name 2")
 			sameNameString += "\n- {}".format(cardLogic_get_fullNameString(aSameName))
@@ -1011,7 +1049,7 @@ def cardLogic_playOrCast(cardToPlay, x = 0, y = 0, forFree = "FALSE", autoCast =
 		mySameCards = (card for card in table 
 						if card.controller == me 
 						and card.Active == "TRUE" 
-						and card.Name == cardToPlay.Name 
+						and cardLogic_get_internalName(card) == cardLogic_get_internalName(cardToPlay)
 						and card.SetNumber == cardToPlay.SetNumber)
 		for aSameCard in mySameCards:
 			sameCardString = "{}".format(cardLogic_get_fullNameString(aSameCard))
@@ -1265,10 +1303,10 @@ def cardLogic_playOrCast(cardToPlay, x = 0, y = 0, forFree = "FALSE", autoCast =
 				
 				if (noColorProblem == "FALSE" and deckFormat != "Title"):
 					if (costError != ""): costError += "\n\n"
-					costError += "You need at least one {} CP to {} {}.".format(anElement, playOrCast, cardLogic_get_fullNameString(cardToPlay))
+					costError += "__L10N_PROMPT_NEED_ELEMENT_CP__".format(promptElementDisplayNames[anElement], playOrCast, cardLogic_get_fullNameString(cardToPlay))
 		if (totalCP < costToPlay):
 			if (costError != ""): costError += "\n\n"
-			costError += "You need at least {} CP to {} {}.".format(costToPlay, playOrCast, cardLogic_get_fullNameString(cardToPlay))
+			costError += "__L10N_PROMPT_NEED_TOTAL_CP__".format(costToPlay, playOrCast, cardLogic_get_fullNameString(cardToPlay))
 			
 		if (costError != ""):
 			playSound("error")
@@ -1550,6 +1588,7 @@ def cardLogic_dull(dullCard, forceDull = False):
 		numChoices = 0
 		choiceContainer = []
 		choiceColors = []
+		choiceElements = []
 		allElements = ["Fire", "Ice", "Wind", "Earth", "Lightning", "Water", "Light", "Dark"]
 		
 		elementContainer = cardLogic_get_elementContainer(dullCard)
@@ -1594,19 +1633,20 @@ def cardLogic_dull(dullCard, forceDull = False):
 		
 		for anElement in allElements:
 			if (anElement in elementContainer or anElement in extraElementsList):
-				choiceContainer.append("Gain {} CP".format(anElement))
+				choiceContainer.append("__L10N_PROMPT_GAIN_ELEMENT_CP__".format(promptElementDisplayNames[anElement]))
 				choiceColors.append(cardLogic_get_elementColorCode(anElement))
+				choiceElements.append(anElement)
 				numChoices += 1
-		choiceContainer.append("Dull (No CP)")
+		choiceContainer.append("__L10N_PROMPT_DULL_NO_CP__")
 		choiceColors.append(cardLogic_get_elementColorCode("MenuColor"))
 		
-		askNum = askChoice("Gain CP? Or Dull?", choiceContainer, choiceColors) - 1
+		askNum = askChoice("__L10N_PROMPT_GAIN_CP_OR_DULL__", choiceContainer, choiceColors) - 1
 		if (askNum >= 0 and askNum < numChoices):
-			chosenElement = choiceContainer[askNum].split(" ")[1]
+			chosenElement = choiceElements[askNum]
 			counterName = chosenElement + " CP"
 			me.counters[counterName].value += 1
 			dullCard.orientation = 1
-			notify("{} dulls {} and gains 1 {} CP.".format(me, cardLogic_get_fullNameObject(dullCard), chosenElement))
+			notify("{} dulls {} and gains 1 {} CP.".format(me, cardLogic_get_fullNameObject(dullCard), cardLogic_get_elementCPDisplayName(chosenElement)))
 			gainCP = "TRUE"
 		elif (askNum != numChoices):
 			return
@@ -1720,7 +1760,7 @@ def cardLogic_specialAbility(card, whichAbility):
 	# Character check
 	if (useGlobalSpecial == False):
 		charactersInHand = (aCard for aCard in me.hand 
-						if card.Name == aCard.Name)
+						if cardLogic_get_internalName(card) == cardLogic_get_internalName(aCard))
 		for aCard in charactersInHand:
 			costTargets.append(aCard)
 		if (saSections[3] != "None"):
@@ -2094,7 +2134,7 @@ def cardLogic_countCards(card, correctTargets):
 	for searchString in allSearchStrings:
 		searchResultsArray = searchLogic_search(searchVariables[0], searchVariables[1], searchString, "ReturnArray")
 		numFound = len(searchResultsArray)
-		if (card.Name == "Golbez" and (card.SetNumber == "2-109" or card.SetNumber == "PR-024") and numFound > 1): numFound = 1
+		if (cardLogic_get_internalName(card) == "Golbez" and (card.SetNumber == "2-109" or card.SetNumber == "PR-024") and numFound > 1): numFound = 1
 		totalCount += numFound
 	
 	askChoice("Number of cards found: {}".format(totalCount), ["OK"], ["#111111"])
@@ -2146,14 +2186,14 @@ def cardLogic_changeElement(card, chosenElement):
 			elementContainerArray.remove(chosenElement)
 			card.ElementContainer = " - ".join(elementContainerArray)
 			cardLogic_set_borderColor(card, "Ability")
-			notify("{} loses the {} element.".format(cardLogic_get_fullNameObject(card), chosenElement))
+			notify("{} loses the {} element.".format(cardLogic_get_fullNameObject(card), cardLogic_get_elementDisplayName(chosenElement)))
 			removeElement = True
 			
 	if (removeElement == False):
 		elementContainerArray.append(chosenElement)
 		card.ElementContainer = " - ".join(elementContainerArray)
 		cardLogic_set_borderColor(card, "Ability")
-		notify("{} gains the {} element.".format(cardLogic_get_fullNameObject(card), chosenElement))
+		notify("{} gains the {} element.".format(cardLogic_get_fullNameObject(card), cardLogic_get_elementDisplayName(chosenElement)))
 		
 def cardLogic_changeElement_fire(card, x = 0, y = 0):
 	mute()
@@ -2316,7 +2356,7 @@ def cardLogic_setTarget(card, x = 0, y = 0):
 def cardLogic_breakZone_removeAll(group, x = 0, y = 0):
 	mute()
 	if (len(me.piles["Break Zone"]) < 1): return
-	askChoiceResult = askChoice("Send all cards in your Break Zone to be Removed From Game?", ["Yes", "No"], ["#660000", "#111111"])
+	askChoiceResult = askChoice("Send all cards in your Break Zone to be Removed From Game?", ["__L10N_PROMPT_YES__", "__L10N_PROMPT_NO__"], ["#660000", "#111111"])
 	if (askChoiceResult != 1): return
 	
 	for aCard in me.piles["Break Zone"]:
@@ -2348,7 +2388,8 @@ def cardLogic_breakZone_removeMonsters(group, x = 0, y = 0):
 def cardLogic_breakZone_removeCards(cardType):
 	mute()
 	if (len(me.piles["Break Zone"]) < 1): return
-	askChoiceResult = askChoice("Send all {}s in your Break Zone to be Removed From Game?".format(cardType), ["Yes", "No"], ["#660000", "#111111"])
+	displayCardType = cardLogic_get_displayCardType(cardType)
+	askChoiceResult = askChoice("__L10N_PROMPT_REMOVE_ALL_TYPE__".format(displayCardType), ["__L10N_PROMPT_YES__", "__L10N_PROMPT_NO__"], ["#660000", "#111111"])
 	if (askChoiceResult != 1): return
 	
 	removedOne = False
@@ -2357,7 +2398,7 @@ def cardLogic_breakZone_removeCards(cardType):
 			aCard.moveTo(me.piles["Removed From Game"])
 			removedOne = True
 	if (removedOne == True):
-		notify("{} removes all {}s in their Break Zone from the game.".format(me, cardType))
+		notify("{} removes all {}s in their Break Zone from the game.".format(me, displayCardType))
 		
 	powerLogic_powerBoost_calculate(table)
 	
@@ -2543,6 +2584,11 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 		if (anAbilityList[0] == "Prime_Dominant"):
 			targetName = anAbilityList[1]
 			targetCost = anAbilityList[2]
+			targetDisplayName = targetName
+			for targetCard in me.Deck:
+				if (cardLogic_get_internalName(targetCard) == targetName):
+					targetDisplayName = cardLogic_get_name(targetCard)
+					break
 			
 			noColorProblem = "FALSE"
 				
@@ -2571,7 +2617,7 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 				neededValue = int(abilityCosts[index])
 				if (neededValue > counterValue and noColorProblem == "FALSE"):
 					playSound("error")
-					askChoice("You have {} {}. You need at least {} {} in order to Prime {}.".format(counterValue, counterName, neededValue, counterName, targetName), ["OK"], ["#111111"])
+					askChoice("You have {} {}. You need at least {} {} in order to Prime {}.".format(counterValue, counterName, neededValue, counterName, targetDisplayName), ["OK"], ["#111111"])
 					return
 				counterTotal += counterValue
 				neededTotal += neededValue
@@ -2579,7 +2625,7 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 			if (neededTotal > counterTotal):
 				cpDiff = neededTotal - counterTotal
 				playSound("error")
-				askChoice("You need an additional {} CP in order to Prime {}.".format(cpDiff, targetName), ["OK"], ["#111111"])
+				askChoice("You need an additional {} CP in order to Prime {}.".format(cpDiff, targetDisplayName), ["OK"], ["#111111"])
 				return
 				
 			# Name Check (for non-Title format)
@@ -2588,7 +2634,7 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 				myCardsWithSameName = (card for card in table
 										if card.controller == me 
 										and card.Active == "TRUE" 
-										and card.Name == targetName)
+										and cardLogic_get_internalName(card) == targetName)
 				for aSameName in myCardsWithSameName:
 					sameNameString += "\n- {}".format(cardLogic_get_fullNameString(aSameName))
 					
@@ -2603,7 +2649,7 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 				
 				if (sameNameString != ""):
 					fullSameNameString = "You cannot have these cards in play at the same time:"
-					fullSameNameString += "\n\n- {}".format(targetName)
+					fullSameNameString += "\n\n- {}".format(targetDisplayName)
 					fullSameNameString += sameNameString
 					
 					playSound("error")
@@ -2614,12 +2660,12 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 			foundTarget = False
 			foundTargetArray = []
 			for bCard in me.Deck:
-				if (bCard.Name == targetName):
+				if (cardLogic_get_internalName(bCard) == targetName):
 					foundTarget = True
 					foundTargetArray.append(bCard)
 			if (foundTarget == False):
 				playSound("error")
-				askChoice("There are no valid targets named {} in your Deck.".format(targetName), ["OK"], ["#111111"])
+				askChoice("There are no valid targets named {} in your Deck.".format(targetDisplayName), ["OK"], ["#111111"])
 				return
 				
 			# Should be good
@@ -2636,7 +2682,7 @@ def cardLogic_prime_dominant(dominantCard, x = 0, y = 0):
 			chosenEikon = foundTargetArray[askNum - 1]
 			
 			dominantName = cardLogic_get_fullNameObject(dominantCard)
-			dominantShortName = dominantCard.Name
+			dominantShortName = cardLogic_get_internalName(dominantCard)
 			# whisper("dominantName: {}".format(dominantName))
 			currentOrientation = dominantCard.orientation;
 			

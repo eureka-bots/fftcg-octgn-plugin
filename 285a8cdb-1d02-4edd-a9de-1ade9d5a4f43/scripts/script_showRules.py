@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #---------------------------------------------------------------------------
 # Rules used to show menu options
 #---------------------------------------------------------------------------
@@ -7,18 +8,18 @@ def showRule_debug(list, group, tablePos):
 	
 def nameRule_playOrCast(list, group, tablePos):
 	if ("Summon" in list[0].Type):
-		return "Cast"
-	return "Play"
+		return "__L10N_DYNAMIC_CAST__"
+	return "__L10N_DYNAMIC_PLAY__"
 	
 def nameRule_playOrCast_forFree(list, group, tablePos):
 	if ("Summon" in list[0].Type):
-		return "Cast (for free)"
-	return "Play (for free)"
+		return "__L10N_DYNAMIC_CAST_FOR_FREE__"
+	return "__L10N_DYNAMIC_PLAY_FOR_FREE__"
 	
 def nameRule_playOrCast_LimitBreak(list, group, tablePos):
 	if ("Summon" in list[0].Type):
-		return "Cast (Limit Break)"
-	return "Play (Limit Break)"
+		return "__L10N_DYNAMIC_CAST_LIMIT_BREAK__"
+	return "__L10N_DYNAMIC_PLAY_LIMIT_BREAK__"
 
 def showRule_card_onTable(list, group, tablePos):
 	return (list[0].SetNumber != "LB-DECK") and list[0].Active == "TRUE"
@@ -155,9 +156,9 @@ def nameRule_character_revealCards_1(list, group, tablePos):
 		anAbilityList = anAbility.split("|")
 		if (anAbilityList[0] == "RevealCards1"):
 			if (anAbilityList[1] == "Quantity"):
-				return "Reveal the top " + anAbilityList[2] + " card(s) of your Deck"
+				return "__L10N_DYNAMIC_REVEAL_QUANTITY__".format(anAbilityList[2])
 			elif (anAbilityList[1] == "Target"):
-				return "Reveal card(s) from the top of your Deck"
+				return "__L10N_DYNAMIC_REVEAL_TARGET__"
 	return "Error"
 	
 def nameRule_character_revealCards_2(list, group, tablePos):
@@ -168,9 +169,9 @@ def nameRule_character_revealCards_2(list, group, tablePos):
 		anAbilityList = anAbility.split("|")
 		if (anAbilityList[0] == "RevealCards2"):
 			if (anAbilityList[1] == "Quantity"):
-				return "Reveal the top " + anAbilityList[2] + " card(s) of your Deck"
+				return "__L10N_DYNAMIC_REVEAL_QUANTITY__".format(anAbilityList[2])
 			elif (anAbilityList[1] == "Target"):
-				return "Reveal card(s) from the top of your Deck"
+				return "__L10N_DYNAMIC_REVEAL_TARGET__"
 	return "Error"
 	
 def showRule_character_activateCards_1(list, group, tablePos):
@@ -235,7 +236,7 @@ def nameRule_character_prime_dominant(list, group, tablePos):
 	for anAbility in abilityList:
 		anAbilityList = anAbility.split("|")
 		if (anAbilityList[0] == "Prime_Dominant"):
-			return "Prime into: " + anAbilityList[1]
+			return "__L10N_DYNAMIC_PRIME_INTO__".format(anAbilityList[1])
 	return "Error"
     
 def nameRule_character_prime_eikon(list, group, tablePos):
@@ -245,7 +246,7 @@ def nameRule_character_prime_eikon(list, group, tablePos):
 	for anAbility in abilityList:
 		anAbilityList = anAbility.split("|")
 		if (anAbilityList[0] == "Prime_Eikon"):
-			return "Primed from: " + anAbilityList[1]
+			return "__L10N_DYNAMIC_PRIMED_FROM__".format(anAbilityList[1])
 	return "Error"
 	
 def showRule_character_vanish(list, group, tablePos):
@@ -257,8 +258,21 @@ def nameRule_character_changeElement(card, chosenElement):
 	elementContainerArray = card.ElementContainer.split(" - ")
 	for anElement in elementContainerArray:
 		if (anElement == chosenElement):
-			return "Remove " + chosenElement + " Element"
-	return "Add " + chosenElement + " Element"
+			return "__L10N_DYNAMIC_REMOVE_ELEMENT__".format(nameRule_character_elementName(chosenElement))
+	return "__L10N_DYNAMIC_ADD_ELEMENT__".format(nameRule_character_elementName(chosenElement))
+
+def nameRule_character_elementName(chosenElement):
+	elementNames = {
+		"Fire": "__L10N_DYNAMIC_ELEMENT_FIRE__",
+		"Ice": "__L10N_DYNAMIC_ELEMENT_ICE__",
+		"Wind": "__L10N_DYNAMIC_ELEMENT_WIND__",
+		"Earth": "__L10N_DYNAMIC_ELEMENT_EARTH__",
+		"Lightning": "__L10N_DYNAMIC_ELEMENT_LIGHTNING__",
+		"Water": "__L10N_DYNAMIC_ELEMENT_WATER__",
+		"Light": "__L10N_DYNAMIC_ELEMENT_LIGHT__",
+		"Dark": "__L10N_DYNAMIC_ELEMENT_DARK__"
+	}
+	return elementNames[chosenElement]
 	
 def nameRule_character_changeElement_fire(list, group, tablePos):
 	passedCard = list[0]
@@ -314,23 +328,23 @@ def showRule_notTopCardOfDeck_andInactive(list, group, tablePos):
 def nameRule_playmat(list, group, tablePos):
 	global_UsePlaymat = getGlobalVariable("global_UsePlaymat")
 	if (global_UsePlaymat == "TRUE"): 
-		return "Turn Off Playmat"
+		return "__L10N_DYNAMIC_PLAYMAT_OFF__"
 	else: 
-		return "Turn On Playmat"
+		return "__L10N_DYNAMIC_PLAYMAT_ON__"
 		
 def nameRule_damageZone(list, group, tablePos):
 	global_DamageZone = getGlobalVariable("global_UseDamageZone")
 	if (global_DamageZone == "TRUE"): 
-		return "Hide Damage Zone on Table"
+		return "__L10N_DYNAMIC_DAMAGE_ZONE_HIDE__"
 	else: 
-		return "Show Damage Zone on Table"
+		return "__L10N_DYNAMIC_DAMAGE_ZONE_SHOW__"
 		
 def nameRule_bossFight(list, group, tablePos):
 	global_BossFight = getGlobalVariable("global_BossFight")
 	if (global_BossFight == "TRUE"): 
-		return "Turn Off Boss Fight"
+		return "__L10N_DYNAMIC_BOSS_FIGHT_OFF__"
 	else: 
-		return "Turn On Boss Fight"
+		return "__L10N_DYNAMIC_BOSS_FIGHT_ON__"
 		
 def showRule_character_powerBoost_1(list, group, tablePos):
 	passedCard = list[0]

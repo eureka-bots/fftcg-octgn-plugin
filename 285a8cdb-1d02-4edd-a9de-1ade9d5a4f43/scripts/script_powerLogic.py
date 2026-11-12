@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def powerLogic_add_1000(card, x = 0, y = 0):
 	mute()
 	powerLogic_calculate(card, 1000)
@@ -506,6 +508,8 @@ def powerLogic_powerBoost_applyBoost(card, boostLogic):
 		
 	if (powerMultiplierArray[0] == "Size"):
 		powerBoost = powerBoost * searchCount
+	elif (powerMultiplierArray[0] == "SizePer"):
+		powerBoost = powerBoost * (searchCount // int(powerMultiplierArray[1]))
 	elif (powerMultiplierArray[0] == "Counter"):
 		# whisper("{} - {}".format(powerMultiplierArray[0], powerMultiplierArray[1]))
 		thisMarker = (powerMultiplierArray[1], powerMultiplierArray[1] + " ID")
@@ -559,6 +563,8 @@ def powerLogic_powerBoost_applyManualBoost(card, boostLogic, onOrOff):
 		
 	if (powerMultiplierArray[0] == "Size"):
 		powerBoost = powerBoost * searchCount
+	elif (powerMultiplierArray[0] == "SizePer"):
+		powerBoost = powerBoost * (searchCount // int(powerMultiplierArray[1]))
 	elif (powerMultiplierArray[0] == "Counter"):
 		counterTotal = 0
 		for aCard in targetArray:

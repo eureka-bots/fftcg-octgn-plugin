@@ -170,7 +170,7 @@ Remove 1 Card Name Jecht or Card Name Sin in your Break Zone from the game: Choo
       <property name="PowerContainer" value="5000|0|0|0" />
       <property name="Abilities">When Zidane enters the field, you may discard 1 card. When you do so, draw 1 card. If the discarded card is a Category IX card, until the end of the turn, Zidane also gains +3000 power and <b>Haste</b>.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Manual|OFF|N/A|ThisCard|3000|Single|Zidane gains +3000 power (manually)" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -723,7 +723,7 @@ When a Forward other than Zenos is put from the field into the Break Zone, your 
         <s value="EXBurst">EX Burst</s> When Roghza Ovis enters the field, you may search for 1 Job Princess and add it to your hand.
 If you control a Job Princess, Roghza Ovis gains +1000 power and <b>Brave</b>.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="SearchForCard1|Search your Deck for a Job Princess|Player_Deck_Job,Is,Princess" />
+      <property name="AbilitiesContainer" value="SearchForCard1|Search your Deck for a Job Princess|Player_Deck_Job,Is,Princess][PowerBoost_1st|Auto|ACTIVE|Player_Table_JobContainer,Is,Princess|ThisCard|1000|Single|Roghza Ovis gains +1000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="TRUE" />
       <property name="Active" value="FALSE" />
@@ -1144,7 +1144,7 @@ When a Forward with <i>Limit Break</i> enters your opponent's field, Malebranche
       <property name="Abilities">If 10 or more cards you own are removed from the game, Ardbert gains +4000 power.
 <s value="Crystal">Crystal</s>: Remove all the cards in each player's Break Zone from the game.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|Player_RemoveFromGame_ContainerSize,GreaterThanOrEqualTo,10|ThisCard|4000|Single|Ardbert gains +4000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1191,7 +1191,7 @@ When a Forward with <i>Limit Break</i> enters your opponent's field, Malebranche
         <s value="EXBurst">EX Burst</s> When Yenke enters the field, you may search for 1 Card Name Kimahri or Card Name Biran and add it to your hand.
 If you control a Forward of power 9000 or more other than Yenke, Yenke gains +2000 power.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="SearchForCard1|Search your Deck for Card Name Kimahri|Player_Deck_Name,Is,Kimahri][SearchForCard2|Search your Deck for Card Name Biran|Player_Deck_Name,Is,Biran" />
+      <property name="AbilitiesContainer" value="SearchForCard1|Search your Deck for Card Name Kimahri|Player_Deck_Name,Is,Kimahri][SearchForCard2|Search your Deck for Card Name Biran|Player_Deck_Name,Is,Biran][PowerBoost_1st|Auto|ACTIVE|Player_Table_TypeContainer,Is,ForwardANDName,IsNot,YenkeANDTotalPower,GreaterThanOrEqualTo,9000|ThisCard|2000|Single|Yenke gains +2000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="TRUE" />
       <property name="Active" value="FALSE" />
@@ -1215,7 +1215,7 @@ If you control a Forward of power 9000 or more other than Yenke, Yenke gains +20
 The Category FFBE Forwards other than Oberon Heindler you control gain +1000 power and <b>Brave</b>.
 If Oberon Heindler is dealt damage by your opponent's abilities, the damage becomes 0 instead.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|N/A|Player_Table_TypeContainer,Is,ForwardANDCategoryContainer,Is,FFBEANDName,IsNot,Oberon Heindler|1000|Single|Category FFBE Forwards other than Oberon Heindler gain +1000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1258,7 +1258,7 @@ If Oberon Heindler is dealt damage by your opponent's abilities, the damage beco
       <property name="Abilities">The cost required to cast Kimahri is reduced by 2 for each Job Ronso Forward you control.
 Put Kimahri into the Break Zone: Choose 1 Category X Forward. During this turn, if it is dealt damage, the damage becomes 0 instead.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="CostReduction|Self|Player_Table_TypeContainer,Is,ForwardANDJobContainer,Is,Ronso|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1347,7 +1347,7 @@ When Daisy is dealt 7000 damage or more by your opponent's Summons or abilities,
 <b>Brave</b>
 When Tifa or an Earth Character enters your field, Tifa gains +1000 power until the end of the turn.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Manual|OFF|N/A|ThisCard|1000|Single|Tifa gains +1000 power (manually)" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1390,7 +1390,7 @@ When Tifa or an Earth Character enters your field, Tifa gains +1000 power until 
       <property name="Abilities">If you control a Forward of power 9000 or more other than Biran, Biran gains +2000 power.
 When Biran or a Forward of power 9000 or more enters your field, choose 1 dull Forward opponent controls. Break it.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|Player_Table_TypeContainer,Is,ForwardANDName,IsNot,BiranANDTotalPower,GreaterThanOrEqualTo,9000|ThisCard|2000|Single|Biran gains +2000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1500,7 +1500,7 @@ If Proto-behemoth is dealt damage less than Proto-behemoth's power, the damage b
 The power of the Category X Forwards you control cannot be decreased by your opponent's Summons or abilities.
 When Rikku is put from the field into the Break Zone, choose 1 Category X card other than Card Name Rikku in your Break Zone. Add it to your hand.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="SearchForCard1|Search your Break Zone for a Category X card other than Card Name Rikku|Player_BreakZone_Category,Is,XANDName,IsNot,Rikku" />
+      <property name="AbilitiesContainer" value="SearchForCard1|Search your Break Zone for a Category X card other than Card Name Rikku|Player_BreakZone_Category,Is,XANDName,IsNot,Rikku][CostReduction|Self|Player_Table_TypeContainer,Is,ForwardANDCategoryContainer,Is,X|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1546,7 +1546,7 @@ When Rikku is put from the field into the Break Zone, choose 1 Category X card o
 <b>Back Attack</b>
 When Aldo deals damage to a Forward, break it.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="CostReduction|Self|Player_Table_TypeContainer,Is,ForwardANDCategoryContainer,Is,XI|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1767,7 +1767,7 @@ When Zack enters the field, choose 1 Forward. Deal it 4000 damage.</property>
 When Shantotto enters the field, deal 1000 damage for each Lightning Character you control to all the Forwards other than Shantotto.
 When Shantotto attacks, reveal the top card of your deck. If it is a Lightning card, add it to your hand.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="RevealCards1|Quantity|1|Element,Is,Lightning" />
+      <property name="AbilitiesContainer" value="RevealCards1|Quantity|1|Element,Is,Lightning][CostReduction|Self|Player_Table_TypeContainer,IsNot,SummonANDElementContainer,Is,Lightning|1|X|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -1902,7 +1902,7 @@ When a card with EX Burst is put into your opponent's Damage Zone or a Character
       <property name="Abilities">If Aymeric is dealt damage less than Aymeric's power, the damage becomes 0 instead.
 When Aymeric attacks, all the Forwards other than Aymeric you control gain +2000 power until the end of the turn.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Manual|OFF|N/A|Player_Table_TypeContainer,Is,ForwardANDName,IsNot,Aymeric|2000|Single|Forwards other than Aymeric gain +2000 power (manually)" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -2170,7 +2170,7 @@ When Yuna enters the field, reveal the top 5 cards of your deck. Add 1 Category 
 When a Forward of power 9000 or more you control attacks, draw 1 card.
 Damage 3 -- Lucia (XIV) gains +2000 power.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|Player_DamageZone_ContainerSize,GreaterThanOrEqualTo,3|ThisCard|2000|Single|Lucia (XIV) gains +2000 power][CostReduction|Self|Player_Table_Name,Is,Aymeric|1|2|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -2303,7 +2303,7 @@ At the end of each of your turns, if you control 6 or more Category X Forwards, 
       <property name="Abilities">The Category FFBE Forwards you control other than Jayden Rundall gain +1000 power.
 When Jayden Rundall enters the field, reveal the top 7 cards of your deck. Play up to 1 Category FFBE Character of cost 2 or less and up to 1 Category FFBE Character of cost 4 or less among them onto the field. Then, shuffle the other cards and return them to the bottom of your deck.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="RevealCards1|Quantity|7|Category,Is,FFBEANDType,IsNot,SummonANDCP,LessThanOrEqualTo,4" />
+      <property name="AbilitiesContainer" value="RevealCards1|Quantity|7|Category,Is,FFBEANDType,IsNot,SummonANDCP,LessThanOrEqualTo,4][PowerBoost_1st|Auto|ACTIVE|N/A|Player_Table_TypeContainer,Is,ForwardANDCategoryContainer,Is,FFBEANDName,IsNot,Jayden Rundall|1000|Single|Category FFBE Forwards other than Jayden Rundall gain +1000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -2617,7 +2617,7 @@ Dull 3 active Job Dancer and/or Card Name Dancer: Choose 1 Multi-Element Forward
 <b>Haste</b>
 When Freya attacks, choose 1 Forward opponent controls. Until the end of the turn, it loses 2000 power for each Category IX Forward you control.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="CostReduction|Self|Player_Table_TypeContainer,IsNot,SummonANDCategoryContainer,Is,IX|3|3|MinimumZero" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />
@@ -2661,7 +2661,7 @@ When Freya attacks, choose 1 Forward opponent controls. Until the end of the tur
 When Emmanellain attacks, choose 1 Character. If Emmanellain has 7000 power or more, dull it and Freeze it.
 Damage 3 -- Emmanellain gains +2000 power.</property>
       <property name="SpecialAbilities" />
-      <property name="AbilitiesContainer" value="" />
+      <property name="AbilitiesContainer" value="PowerBoost_1st|Auto|ACTIVE|Player_DamageZone_ContainerSize,GreaterThanOrEqualTo,3|ThisCard|2000|Single|Emmanellain gains +2000 power" />
       <property name="Multicard" value="FALSE" />
       <property name="EXBurst" value="FALSE" />
       <property name="Active" value="FALSE" />

@@ -2393,7 +2393,7 @@ For each point of damage you have received, Machina gains +1000 power.</property
 If you control 3 or more <i>Category VII</i> Forwards, Red XIII gains <b>Haste</b>, <b>First Strike</b> and <b>Brave</b>.
 When Red XIII enters the field, all the Forwards you control gain +2000 power until the end of the turn.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value='LimitBreak|2][AlternateName|Red XIII][[PowerBoost_1st|Manual|OFF|N/A|Player_Table_TypeContainer,Is,Forward|2000|Single|Forwards gain +2000 power'/>
+			<property name='AbilitiesContainer' value='LimitBreak|2][AlternateName|Red XIII][PowerBoost_1st|Manual|OFF|N/A|Player_Table_TypeContainer,Is,Forward|2000|Single|Forwards gain +2000 power'/>
 			<property name='Multicard' value='FALSE'/>
 			<property name='EXBurst' value='FALSE'/>
 			<property name='Active' value='FALSE'/>

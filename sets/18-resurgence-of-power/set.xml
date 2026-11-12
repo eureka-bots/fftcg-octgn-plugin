@@ -1723,7 +1723,7 @@ When you receive a point of damage, choose 1 Forward. Until the end of the turn,
 			<property name='PowerContainer' value='|0|0|0'/>
 			<property name='Abilities'><i>Damage 3</i> -- <s value="EXBurst">EX Burst</s> When Cid Sophiar enters the field, choose 1 Character in your Break Zone. Add it to your hand.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value='Search your Break Zone for a Character|Player_BreakZone_Type,IsNot,Summon'/>
+			<property name='AbilitiesContainer' value='SearchForCard1|Search your Break Zone for a Character|Player_BreakZone_Type,IsNot,Summon'/>
 			<property name='Multicard' value='FALSE'/>
 			<property name='EXBurst' value='TRUE'/>
 			<property name='Active' value='FALSE'/>
