@@ -18,7 +18,7 @@
 1. OCTGNを終了します。
 2. エクスプローラーのアドレス欄に `%USERPROFILE%\Documents\OCTGN\LocalFeed` と入力して開きます。フォルダーが存在しない場合は作成してください。
 3. ダウンロードした `.nupkg` ファイルを `LocalFeed` フォルダーにコピーします。
-4. OCTGNを起動し、**Games Manager** タブを開きます。
+4. OCTGNを起動し、**Games Manager** タブを開きます。一時的にフリーズすることがありますが、読み込みに時間がかかっているだけです。終わるまで待ちましょう。
 5. 左上のフィード選択欄から **Local (Developers)** を選びます。
 6. 一覧から **Final Fantasy TCG** を選び、**Install** をクリックします。
 
