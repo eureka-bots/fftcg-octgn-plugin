@@ -1,5 +1,7 @@
 # Final Fantasy TCG for OCTGN
 
+日本語でのプレイヤー向け導入手順: [README.ja.md](README.ja.md)
+
 This folder contains the unpackaged OCTGN game definition, card data, and assets.
 
 ## Contents
