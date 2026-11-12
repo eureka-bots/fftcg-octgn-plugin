@@ -8,7 +8,7 @@ param(
 	[string]$Name = 'dissidia',
 	[string]$OutputDirectory,
 	[ValidateRange(1, 100)]
-	[int]$ArtworkOpacity = 65,
+	[int]$ArtworkOpacity = 70,
 	[string]$DamageZoneImage,
 	[string]$TopDamageZoneImage,
 	[string]$BottomDamageZoneImage,
