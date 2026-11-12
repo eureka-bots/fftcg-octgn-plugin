@@ -1,109 +1,67 @@
 # Final Fantasy TCG for OCTGN
 
-日本語でのプレイヤー向け導入手順: [README.ja.md](README.ja.md)
+Play Final Fantasy TCG online using OCTGN. The game plugin and card image packs are separate downloads; install both to play with card images.
 
-This folder contains the unpackaged OCTGN game definition, card data, and assets.
+- 日本語プレイヤーガイド: [README.ja.md](README.ja.md)
+- Plugin development and contribution guide: [DEVELOPMENT.md](docs/DEVELOPMENT.md)
+- OCTGN: [octgn.net](https://www.octgn.net/)
 
-## Contents
+## Download and Install
 
-- `definition.xml` defines the game and references its scripts, images, sounds, markers, and proxy-card templates.
-- `sets/` contains card sets in human-readable folders. The `set.xml` in each folder is the source of truth for its OCTGN set UUID.
-- `tools/Build.ps1` reconstructs the UUID-named `Sets/` tree in a temporary staging copy and runs the OCTGN builder.
-- `Decks/` contains pre-built decks; these are useful examples and are not required by the game definition itself.
-- `scripts/` contains the Python game, card, power, search, and rules logic.
-- `resources/` contains card and board images, icons, and sounds.
-- `proxy/` contains proxy-card templates and their definitions.
+### Game plugin
 
-## Card Ability Data
+In OCTGN, open **Games Manager**, find **Final Fantasy TCG** in the available games, and click **Install**. Wait for installation to finish.
 
-Keep the four ability-related properties on each card consistent:
+### Card image pack
 
-- `Abilities` is rich text for the card's ordinary printed rules text, such as keywords, triggered abilities, and static effects. Preserve OCTGN markup such as `<b>`, `<i>`, and `<s value="...">` for styling and symbols.
-- `SpecialAbilities` is rich text for named, costed Special actions shown separately from the ordinary rules text. Keep the action name, Special symbol, CP symbols, and effect together, in display order.
-- `AbilitiesContainer` is script data, not player-facing prose. It contains the automation entries recognized by the game scripts, separated by `][`. For each Special action exposed as a clickable card action, add the matching `SpecialAbility1`, `SpecialAbility2`, or `SpecialAbility3` entry in the same order as `SpecialAbilities`; keep its name and cost consistent with the displayed action. Do not invent entries for unsupported effects: ordinary rules text can exist without automation.
-- `EXBurst` is the string `TRUE` or `FALSE` and controls whether a card triggers EX Burst handling when revealed from the Damage Zone. Set it to `TRUE` for an EX Burst card and `FALSE` otherwise. In `Abilities`, mark the printed keyword with `<s value="EXBurst">EX Burst</s>`; the flag does not depend on whether the effect is automated.
+Download the English (`en`) image pack from the [distribution folder](https://drive.google.com/drive/u/0/folders/1-iuTjSH1AWa7XC_9IeIV9d697vBoAuYd). For Japanese cards, see the [Japanese guide](README.ja.md).
 
-For every Limit Break card, append ` (LB)` to the imported card name (for example, `Ysayle (LB)`) so it follows the Limit Break deck naming convention. Include `LimitBreak|<cost>` in `AbilitiesContainer` so the game recognizes and moves it to the LB Deck when a deck is loaded; add `AlternateName|<base card name>` (for example, `AlternateName|Ysayle`) to preserve matching with the ordinary card name.
+In OCTGN's **Games Manager**, click **Add Image Packs**, select the `.o8c` file, and wait for installation to finish. Do not extract the archive.
 
-### Mapping Rules
+## Quick Start: Playing a Game
 
-Treat `Abilities` as the source for deciding which `AbilitiesContainer` entries are appropriate; never copy rules text into the container. For each distinct ability, add an entry only when an existing script handler supports its trigger, timing, costs, conditions, targets, and action. Container entries are script data, not a promise that the whole printed effect resolves automatically.
+This guide covers OCTGN controls, not the FFTCG rules.
 
-For detailed handler formats, supported behavior, limitations, and guidance for AI-assisted card-data mapping, see [CARD_DATA_MAPPING.md](CARD_DATA_MAPPING.md). Repository agent instructions direct card-data work to this reference.
+1. Create or join a **Final Fantasy TCG** game in OCTGN and load your deck.
+2. At the table, each player presses **Tab** (or selects **Game... > Go to Next Phase**) and chooses the deck format. Once both players are ready, OCTGN announces a die roll to determine who goes first.
+3. The first player presses **Tab** again and chooses **Yes** when asked if they are going first.
+4. Draw your opening hand using **Deck > Draw... > Draw 5 Cards/Mulligan** (or **F12**). Press it again to mulligan and draw five new cards.
+5. Once both players have finished drawing or mulliganing, the first player presses **Tab** again to begin the first turn.
 
-Use these helper mappings when they match the printed ability:
+### Turns and Common Actions
 
-- A deck search, or a single card selected from the Break Zone, uses `SearchForCard1`, `SearchForCard2`, or `SearchForCard3`. The format is `SearchForCardN|<menu label>|Player_<Deck or BreakZone>_<filters>`. Filters are `field,operation,value` triples joined with `AND`. For example, Vivi's “Job Black Mage or Card Name Black Mage” search is `SearchForCard1|Search your Deck for a Job Black Mage or Card Name Black Mage|Player_Deck_NameOrJob,Is,Black Mage`; `NameOrJob` matches either the card name or a job. A Break Zone target can add filters such as `Type,Is,ForwardANDCP,LessThanOrEqualTo,2`. The helper shows matching cards to the player; it does not add, play, or otherwise resolve them.
-- Looking at or revealing the top N cards of your deck uses `RevealCards1` or `RevealCards2`, with the format `RevealCardsN|Quantity|<count>|<filters>`. Use `N/A` when no cards need highlighting, for example `RevealCards1|Quantity|2|N/A`. A reveal helper exposes the cards and can highlight matches; adding them to hand, playing them, or moving the rest is still manual unless another handler explicitly implements that action.
-- A named Special action uses `SpecialAbility1`, `SpecialAbility2`, or `SpecialAbility3` in the same order as the actions in `SpecialAbilities`. Keep the action name and activation cost consistent. This exposes the clickable action but does not resolve its effect.
-- A power increase or decrease uses `PowerBoost_1st`, `PowerBoost_2nd`, or `PowerBoost_3rd` only when the power handler can represent its condition and target. Use `Auto|ACTIVE` for supported continuous or conditional boosts that should be recalculated automatically. For a triggered, temporary boost (for example, “When this Forward attacks, it gains +2000 power until the end of the turn”), use `Manual|OFF` with the appropriate target selector and amount. This exposes a toggle in the card's Power menu; it does not detect the trigger or track the duration, so players must switch it on when the effect occurs and off when it expires. Do not use a manual boost for effects that choose one target unless the handler can target that specific card; a selector matching a group applies the boost to every matching card.
+- The active player advances phases with **Tab**: **Active Phase** (your cards ready), **Draw Phase**, **Main Phase 1**, **Attack Phase**, **Main Phase 2**, then **End Phase**. The first player's first Draw Phase draws one card; later Draw Phases draw two automatically. After End Phase, press **Tab** again to pass the turn. You cannot end your turn with more than five cards in hand.
+- Right-click a card to open its actions. From your hand, use **Play or Cast** to play a card. To generate CP, use **Discard (and gain CP)** on a hand card (two CP of its element), or **Dull and Gain CP** on a Backup (one CP of an available element).
+- Use **Dull/Activate** to track a Forward, Backup, or Monster's state. For battle markers, right-click a Forward and choose **Battle... > Attack**, **Party Attack**, or **Defend**. These actions mark and announce the battle action; they do not automatically dull cards or resolve every battle step.
+- To take damage, use **Deck > Take Damage**. It moves the top card of your deck to the Damage Zone and notifies you if that card has EX Burst; resolve its effect according to the card text.
+- Some card effects are automated or prompted by the game, but not every printed ability resolves automatically. Follow the card text and resolve any remaining effects manually.
 
-One printed ability may need multiple entries: use separate numbered search helpers for distinct alternatives when each has a different filter. Conversely, leave unsupported effects in `Abilities` without a guessed container entry. Delimit multiple entries with `][`. For other entry types, follow the existing handler's expected syntax and add them only when its behavior matches the card.
+### Hotkeys
 
-The legacy EX Burst marker/flag mismatches and missing clickable Special entries identified in the set files have been corrected. Continue checking these relationships when adding or editing cards, and avoid copying older data patterns without verifying them.
+Hotkeys are strongly recommended to keep games moving and reduce menu navigation. Start with **Tab**, **F12**, **Ctrl+X**, and **Alt+A / Alt+P / Alt+D** for common turn and battle actions. Card and deck shortcuts are contextual; use them when the relevant card or group is the action target.
 
-## Build
+| Key | Action |
+|---|---|
+| **Tab** | Go to the next phase |
+| **F1**–**F6** | Jump directly to a phase: F1 Active, F2 Draw, F3 Main 1, F4 Attack, F5 Main 2, F6 End |
+| **F7** | Pass control to opponent |
+| **Alt+X** | Roll D6 |
+| **Ctrl+R** | Declare Reaction |
+| **Alt+A** / **Alt+P** / **Alt+D** | Attack / Party Attack / Defend |
+| **Ctrl+X** | Discard a hand card and gain 2 CP of its element |
+| **Ctrl+1** / **Ctrl+2** | Add / subtract 1000 damage from the selected Forward |
+| **Ctrl+Q** / **Ctrl+W** | Add / subtract 1000 power from the selected Forward |
+| **Alt+Q** | Declare Ability |
+| **Alt+S** | Remove Highlights |
+| **Alt+T** | Target / untarget the selected card |
+| **Alt+C** | On the table: Calculate Power of Forwards. On a card: Add Default Counter |
+| **Ctrl+C** | Remove Default Counter from the selected card |
+| **Ctrl+S** | Shuffle the deck |
+| **Ctrl+D** | Draw one card |
+| **F12** | Draw an opening hand of five cards / mulligan |
 
-Keep set sources in readable folders under `sets/` (for example, `sets/20-dawn-of-heroes/`). OCTGN still receives the UUID-based `Sets/<UUID>/` layout, generated from each source `set.xml` at build time; do not edit or create a checked-in `Sets/` tree.
+Use **Tab** for normal turn progression. **F1**–**F6** jump directly to a phase and may skip the processing of intervening phases. **F7** passes control immediately, regardless of the current phase; normally, use **Tab** after the End Phase to pass the turn.
 
-Run the build script from the repository root:
+## Troubleshooting
 
-```powershell
-.\tools\Build.ps1
-```
-
-The build defaults to English. For language options and localization coverage, see [localization/README.md](localization/README.md).
-
-The script validates that set IDs are valid and unique, and that each set belongs to this game. It copies the game files and reconstructs the UUID-named set tree under a unique temporary directory. It includes the Debug set's `Cards/` contents (default card and proxy images) in the game package; images in its source `Cards/Proxies/` folder are placed directly in the staged `Cards/` folder because OCTGN does not allow a `Proxies/` subfolder there. Other sets' card images are omitted so they remain in the separately built image pack. Empty `Cards/` directories are created in staging for OCTGN compatibility. It then invokes `o8build.exe`. The default builder path is `%LOCALAPPDATA%\Programs\OCTGN\o8build.exe`; override it with `-BuilderPath 'C:\path\to\o8build.exe'` if needed.
-
-Use `-ValidateOnly` to validate without building, `-Install` to install the built package into OCTGN's local feed, or `-StageOnly` to create the compatible staging tree without invoking the builder. The staging directory is preserved so you can inspect it and find the generated package; its path is printed by the script.
-
-The `.nupkg` is the builder's feed package; it is not an `.o8g` file. Do not rename the package to `.o8g`.
-
-### Publish To The MyGet Feed
-
-First build and install the package into OCTGN's local feed with `.\tools\Build.ps1 -Install`; the copy command below expects the resulting package in `LocalFeed`. From the repository root, set `$env:VERSION` to the version from `definition.xml`, then copy the builder-named package and give it the feed filename:
-
-```powershell
-$env:VERSION = '0.3.9.6'
-$localFeed = Join-Path $env:LOCALAPPDATA 'Programs\OCTGN\LocalFeed'
-Copy-Item -LiteralPath (Join-Path $localFeed "Final Fantasy TCG-$env:VERSION.nupkg") -Destination ".\285a8cdb-1d02-4edd-a9de-1ade9d5a4f43 $env:VERSION.nupkg"
-```
-
-With the NuGet CLI installed and your MyGet API key available as the `API_KEY` environment variable in the current PowerShell session, push the package with:
-
-```powershell
-nuget push ".\285a8cdb-1d02-4edd-a9de-1ade9d5a4f43 $env:VERSION.nupkg" $env:API_KEY -Source 'https://www.myget.org/F/octgngamedirectory/api/v2/package'
-```
-
-Never put an API key in this command, a checked-in file, or source control.
-
-## Build An Image Pack
-
-After adding English card images for an expansion, apply the existing rounded-corner mask before packaging. The helper uses a tracked alpha-only mask derived from the English Opus III reference, changes only alpha, and validates all images before replacing them. It requires the target images to match the mask dimensions. Use `-WhatIf` to validate the selected sets without changing files.
-
-```powershell
-.\tools\Round-CardImages.ps1 -SetNames '30-memories-of-life'
-```
-
-Run the following in PowerShell from the repository root to create an `.o8c` archive containing card images. The builder reads from each set's `Cards/<language>/` folder; it defaults to Japanese (`ja`). Use `-ImageLanguage en` for English images. Use `-All` to include images from every set, or pass one or more set directory names with `-SetNames`. The Debug set's images are always bundled in either language pack, including when selecting individual sets; files under `Debug/Cards/Proxies/` are flattened into `Debug/Cards/` to match the game build. Other sets without images for the selected language are skipped and reported when using `-All`. The source images are not moved or modified, and the archive is written to your temporary directory by default.
-
-```powershell
-.\tools\Build-ImagePack.ps1 -All -ImageLanguage ja
-```
-
-For a single set (for example, Opus 30), pass its directory name:
-
-```powershell
-.\tools\Build-ImagePack.ps1 -ImageLanguage ja -SetNames '30-memories-of-life'
-```
-
-Pass additional directory names to include more sets in the same archive. You can choose an output filename with `-OutputPath`.
-
-```powershell
-.\tools\Build-ImagePack.ps1 -SetNames @('30-memories-of-life', '9a-full-arts') -OutputPath "$env:TEMP\FFTCG-images-ja.o8c"
-```
-
-The archive contains only `<game UUID>/Sets/<set UUID>/Cards/<card UUID>.<extension>`, with no manifest or enclosing staging folder. This example handles base images only, not alternate faces or `Crops/`. Install the matching game package first, then use OCTGN's **Install Image Packs** action to select the `.o8c`.
-
-For separate releases, exclude optional collectible artwork from the game-build staging copy before running `o8build`, which otherwise includes it recursively. Keep referenced resources (card backs, default fronts, proxy templates, icons, sounds, boards) and essential synthetic HUD/playmat images in the game package. Do not distribute raw downloads or generated proxy caches in either package. Keep release archives outside the plugin root and preserve game, set, and card UUIDs between code and image releases.
+- If card images are missing, install the matching language's `.o8c` file with **Add Image Packs**.
