@@ -1,12 +1,12 @@
 def searchLogic_factor_cardName(card, operation, nameString):
 	mute()
 	# whisper("{} {} {}".format(card, operation, nameString))
-	if (operation == "Is" and nameString == card.Name): return "TRUE"
-	elif (operation == "IsNot" and nameString != card.Name): return "TRUE"
+	if (operation == "Is" and nameString == cardLogic_get_internalName(card)): return "TRUE"
+	elif (operation == "IsNot" and nameString != cardLogic_get_internalName(card)): return "TRUE"
 	elif (operation == "IsOneOf"):
 		nameArray = nameString.split("OR")
 		for aName in nameArray:
-			if (aName == card.name): return "TRUE"
+			if (aName == cardLogic_get_internalName(card)): return "TRUE"
 	return "FALSE"
 	
 def searchLogic_factor_setNumber(card, operation, setNumberString):
@@ -77,8 +77,8 @@ def searchLogic_factor_typeContainer(card, operation, typeString):
 	
 def searchLogic_factor_job(card, operation, jobString):
 	mute()
-	if (operation == "Is" and jobString in cardLogic_get_job(card)): return "TRUE"
-	elif (operation == "IsNot" and jobString not in cardLogic_get_job(card)): return "TRUE"
+	if (operation == "Is" and jobString in cardLogic_get_internalJob(card)): return "TRUE"
+	elif (operation == "IsNot" and jobString not in cardLogic_get_internalJob(card)): return "TRUE"
 	return "FALSE"
 	
 def searchLogic_factor_jobContainer(card, operation, jobString):
@@ -137,7 +137,7 @@ def searchLogic_factor_categoryContainer(card, operation, categoryString):
 	
 def searchLogic_factor_nameOrJob(card, operation, searchString):
 	mute()
-	if (operation == "Is" and searchString == card.Name): return "TRUE"
+	if (operation == "Is" and searchString == cardLogic_get_internalName(card)): return "TRUE"
 	elif (operation == "Is" and searchString in cardLogic_get_jobContainer(card)): return "TRUE"
 	return "FALSE"
 	

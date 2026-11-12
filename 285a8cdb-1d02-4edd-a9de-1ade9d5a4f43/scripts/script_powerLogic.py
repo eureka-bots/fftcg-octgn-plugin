@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def powerLogic_add_1000(card, x = 0, y = 0):
 	mute()
 	powerLogic_calculate(card, 1000)

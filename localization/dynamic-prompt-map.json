@@ -1,0 +1,21 @@
+{
+  "__L10N_PROMPT_CAST_VERB__": "prompt.cast-verb",
+  "__L10N_PROMPT_DULL_NO_CP__": "prompt.dull-no-cp",
+  "__L10N_PROMPT_ELEMENT_DARK__": "prompt.element-dark",
+  "__L10N_PROMPT_ELEMENT_EARTH__": "prompt.element-earth",
+  "__L10N_PROMPT_ELEMENT_FIRE__": "prompt.element-fire",
+  "__L10N_PROMPT_ELEMENT_ICE__": "prompt.element-ice",
+  "__L10N_PROMPT_ELEMENT_LIGHT__": "prompt.element-light",
+  "__L10N_PROMPT_ELEMENT_LIGHTNING__": "prompt.element-lightning",
+  "__L10N_PROMPT_ELEMENT_WATER__": "prompt.element-water",
+  "__L10N_PROMPT_ELEMENT_WIND__": "prompt.element-wind",
+  "__L10N_PROMPT_GAIN_CP_OR_DULL__": "prompt.gain-cp-or-dull",
+  "__L10N_PROMPT_GAIN_ELEMENT_CP__": "prompt.gain-element-cp",
+  "__L10N_PROMPT_NEED_ELEMENT_CP__": "prompt.need-element-cp",
+  "__L10N_PROMPT_NEED_TOTAL_CP__": "prompt.need-total-cp",
+  "__L10N_PROMPT_ELEMENT_CP_SUFFIX__": "prompt.element-cp-suffix",
+  "__L10N_PROMPT_PLAY_VERB__": "prompt.play-verb",
+  "__L10N_PROMPT_REMOVE_ALL_TYPE__": "prompt.remove-all-type-break-zone",
+  "__L10N_PROMPT_YES__": "prompt.yes",
+  "__L10N_PROMPT_NO__": "prompt.no"
+}

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <game name="Final Fantasy TCG" 
 	id="285a8cdb-1d02-4edd-a9de-1ade9d5a4f43"
-	version="0.3.9.6"
+	version="0.3.9.7"
 	octgnVersion="3.1.159.352" 
 	scriptVersion="3.1.0.2"
     markersize="25"  
@@ -131,6 +131,8 @@
 		height="140" 
 		cornerRadius="0">
 		<property name="SetNumber" type="String"/>
+		<property name="InternalName" type="String" hidden="True"/>
+		<property name="InternalJob" type="String" hidden="True"/>
 		<property name="Rarity" type="String"/>
 		<property name="CP" type="String"/>
 		<property name="Element" type="String"/>

@@ -1,7 +1,11 @@
 [CmdletBinding()]
 param(
-	[Parameter(Mandatory = $true)]
-	[string[]]$SetIds,
+	[Parameter(Mandatory = $true, ParameterSetName = 'SetNames')]
+	[string[]]$SetNames,
+	[Parameter(Mandatory = $true, ParameterSetName = 'AllSets')]
+	[switch]$All,
+	[ValidateSet('en', 'ja')]
+	[string]$ImageLanguage = 'ja',
 	[string]$OutputPath
 )
 
@@ -30,6 +34,7 @@ if (-not (Test-Path -LiteralPath $setSourceRoot -PathType Container)) {
 }
 
 $setSources = @{}
+$setPathsById = @{}
 foreach ($setDirectory in Get-ChildItem -LiteralPath $setSourceRoot -Directory) {
 	$setFile = Join-Path $setDirectory.FullName 'set.xml'
 	if (-not (Test-Path -LiteralPath $setFile -PathType Leaf)) {
@@ -42,33 +47,42 @@ foreach ($setDirectory in Get-ChildItem -LiteralPath $setSourceRoot -Directory) 
 		throw "Invalid set UUID '$($set.set.id)' in '$setFile'."
 	}
 	$setId = $setGuid.ToString()
-	if ($setSources.ContainsKey($setId)) {
-		throw "Duplicate set UUID '$setId' in '$($setSources[$setId])' and '$($setDirectory.FullName)'."
+	if ($setPathsById.ContainsKey($setId)) {
+		throw "Duplicate set UUID '$setId' in '$($setPathsById[$setId])' and '$($setDirectory.FullName)'."
 	}
 	$setGameGuid = [guid]::Empty
 	if (-not [guid]::TryParse($set.set.gameId, [ref]$setGameGuid) -or $setGameGuid.ToString() -ne $gameId) {
 		throw "Set '$($set.set.GetAttribute('name'))' has a missing or mismatched game ID in '$setFile'."
 	}
 
-	$setSources[$setId] = $setDirectory.FullName
+	$setPathsById[$setId] = $setDirectory.FullName
+	$setSources[$setDirectory.Name] = [pscustomobject]@{
+		Id = $setId
+		Path = $setDirectory.FullName
+	}
+}
+
+$setNamesToProcess = if ($All) {
+	@($setSources.Keys | Sort-Object)
+}
+else {
+	$SetNames
 }
 
 $selectedSets = @()
+$skippedSets = @()
 $imageFiles = @()
-foreach ($requestedSetId in $SetIds) {
-	$requestedGuid = [guid]::Empty
-	if (-not [guid]::TryParse($requestedSetId, [ref]$requestedGuid)) {
-		throw "Invalid set UUID: '$requestedSetId'."
+foreach ($requestedSetName in $setNamesToProcess) {
+	if (-not $setSources.ContainsKey($requestedSetName)) {
+		throw "Set directory not found under '$setSourceRoot': '$requestedSetName'."
 	}
-	$setId = $requestedGuid.ToString()
-	if (-not $setSources.ContainsKey($setId)) {
-		throw "Set UUID not found under '$setSourceRoot': $setId"
-	}
+	$setSource = $setSources[$requestedSetName]
+	$setId = $setSource.Id
 	if ($selectedSets -contains $setId) {
-		throw "Set UUID was specified more than once: $setId"
+		throw "Set directory was specified more than once: '$requestedSetName'."
 	}
 
-	$setPath = $setSources[$setId]
+	$setPath = $setSource.Path
 	[xml]$set = Get-Content -LiteralPath (Join-Path $setPath 'set.xml') -Raw
 	$cardIds = @{}
 	foreach ($card in $set.set.cards.card) {
@@ -79,14 +93,22 @@ foreach ($requestedSetId in $SetIds) {
 		$cardIds[$cardGuid.ToString()] = $true
 	}
 
-	$cardsPath = Join-Path $setPath 'Cards'
+	$cardsPath = Join-Path (Join-Path $setPath 'Cards') $ImageLanguage
 	if (-not (Test-Path -LiteralPath $cardsPath -PathType Container)) {
-		throw "Card image directory not found: '$cardsPath'."
+		if ($All) {
+			$skippedSets += "$($set.set.GetAttribute('name')) ($setId): image directory not found"
+			continue
+		}
+		throw "Card image directory for '$ImageLanguage' not found: '$cardsPath'."
 	}
 	$images = @(Get-ChildItem -LiteralPath $cardsPath -File |
 		Where-Object { $_.Extension.ToLowerInvariant() -in @('.jpg', '.jpeg', '.png') })
 	if ($images.Count -eq 0) {
-		throw "No card images found for set $setId in '$cardsPath'."
+		if ($All) {
+			$skippedSets += "$($set.set.GetAttribute('name')) ($setId): no images found"
+			continue
+		}
+		throw "No '$ImageLanguage' card images found for set $setId in '$cardsPath'."
 	}
 
 	foreach ($image in $images) {
@@ -102,7 +124,13 @@ foreach ($requestedSetId in $SetIds) {
 	$selectedSets += $setId
 }
 if ($selectedSets.Count -eq 0) {
-	throw 'Select at least one set UUID with -SetIds.'
+	if ($All) {
+		throw "No '$ImageLanguage' card images found in any set under '$setSourceRoot'."
+	}
+	throw 'Select at least one set directory name with -SetNames.'
+}
+if ($skippedSets.Count -gt 0) {
+	Write-Warning "Skipped sets without '$ImageLanguage' images:`n  $($skippedSets -join "`n  ")"
 }
 
 if ([string]::IsNullOrWhiteSpace($env:TEMP)) {
