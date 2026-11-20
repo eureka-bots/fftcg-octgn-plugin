@@ -688,7 +688,7 @@ When Kefka enters the field due to your cast, choose 1 Forward opponent controls
 			<property name='Abilities'><s value="EXBurst">EX Burst</s> When Squall enters the field, reveal the top 3 cards of your deck. Add 1 <i>Category VIII</i> card among them to your hand and return the other cards to the bottom of your deck in any order.
 <s value="1CP">1 CP</s><s value="Dull">Dull</s>, put Squall into the Break Zone: Play 1 <i>Category VIII</i> Character of cost 4 or less from your hand onto the field. You can only use this ability during your turn.</property>
 			<property name='SpecialAbilities'></property>
-			<property name='AbilitiesContainer' value='RevealCards1|Quantity|1|Category,Is,VIII'/>
+			<property name='AbilitiesContainer' value='RevealCards1|Quantity|3|Category,Is,VIII'/>
 			<property name='Multicard' value='FALSE'/>
 			<property name='EXBurst' value='TRUE'/>
 			<property name='Active' value='FALSE'/>
