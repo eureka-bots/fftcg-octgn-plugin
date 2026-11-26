@@ -2155,7 +2155,7 @@ When Xande enters the field, choose 1 Forward in your Break Zone. If you control
 			<property name='EXBurst' value='FALSE'/>
 			<property name='Active' value='FALSE'/>
 		</card>
-		<card name='Neillika' id='632c9a5f-ede2-4ea5-8945-33eb6019d16c'>
+		<card name='Neilikka' id='632c9a5f-ede2-4ea5-8945-33eb6019d16c'>
 			<property name='SetNumber' value='21-097'/>
 			<property name='Rarity' value='Rare'/>
 			<property name='CP' value='2'/>
@@ -2163,14 +2163,14 @@ When Xande enters the field, choose 1 Forward in your Break Zone. If you control
 			<property name='ElementContainer' value='Lightning'/>
 			<property name='Type' value='Forward'/>
 			<property name='TypeContainer' value='Forward'/>
-			<property name='Job' value='FFBE'/>
-			<property name='JobContainer' value='FFBE'/>
-			<property name='Category' value='Caledfwich'/>
-			<property name='CategoryContainer' value='Caledfwich'/>
+			<property name='Job' value='Caledfwich'/>
+			<property name='JobContainer' value='Caledfwich'/>
+			<property name='Category' value=''/>
+			<property name='CategoryContainer' value='FFBE'/>
 			<property name='Power' value='5000'/>
 			<property name='PowerContainer' value='5000|0|0|0'/>
-			<property name='Abilities'>If you control 2 or more <i>Category FFBE</i> Characters, Neillika gains <b>Haste</b>.
-When Neillika attacks, choose 1 Forward opponent controls. Dull it and deal it 3000 damage.</property>
+			<property name='Abilities'>If you control 2 or more <i>Category FFBE</i> Characters, Neilikka gains <b>Haste</b>.
+When Neilikka attacks, choose 1 Forward opponent controls. Dull it and deal it 3000 damage.</property>
 			<property name='SpecialAbilities'></property>
 			<property name='AbilitiesContainer' value=''/>
 			<property name='Multicard' value='FALSE'/>
